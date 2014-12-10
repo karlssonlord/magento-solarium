@@ -28,6 +28,7 @@ class JeroenVermeulen_Solarium_Model_Engine
     const SEARCH_TYPE_USE_CONFIG        = 0;
     const SEARCH_TYPE_LITERAL           = 1;
     const SEARCH_TYPE_STRING_COMPLETION = 2;
+    const SEARCH_TYPE_SOUNDS_LIKE       = 3;
 
     /** @var \Solarium\Client */
     protected $_client;
@@ -530,7 +531,10 @@ class JeroenVermeulen_Solarium_Model_Engine
             $escapedQueryString = $queryHelper->escapeTerm( $queryString );
             if ( $this::SEARCH_TYPE_STRING_COMPLETION == $searchType ) {
                 $escapedQueryString = $escapedQueryString . '*';
+            } else if ( $this::SEARCH_TYPE_SOUNDS_LIKE == $searchType ) {
+                $escapedQueryString = $escapedQueryString . '~';
             }
+
             $query->setQueryDefaultField( array( 'text' ) );
             $query->setQuery( $escapedQueryString );
             $query->setRows( $maxResults );
