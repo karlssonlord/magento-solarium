@@ -529,7 +529,7 @@ class JeroenVermeulen_Solarium_Model_Engine
             $query              = $this->_client->createSelect();
             $queryHelper        = $query->getHelper();
             $escapedQueryString = $queryHelper->escapeTerm( $queryString );
-            if ( $this::SEARCH_TYPE_STRING_COMPLETION == $searchType ) {
+            if ( $this::SEARCH_TYPE_STRING_COMPLETION == $searchType || $escapedQueryString == '' ) {
                 $escapedQueryString = $escapedQueryString . '*';
             } else if ( $this::SEARCH_TYPE_SOUNDS_LIKE == $searchType ) {
                 $escapedQueryString = $escapedQueryString . '~';
