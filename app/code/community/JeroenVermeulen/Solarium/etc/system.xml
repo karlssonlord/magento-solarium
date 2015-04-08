@@ -98,7 +98,7 @@
                             <show_in_store>0</show_in_store>
                         </core>
                         <timeout translate="label">
-                            <label>General Timeout (seconds)</label>
+                            <label>General Timeout (milliseconds)</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>50</sort_order>
                             <validate>validate-greater-than-zero</validate>
