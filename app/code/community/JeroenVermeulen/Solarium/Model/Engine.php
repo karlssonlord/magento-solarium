@@ -417,10 +417,19 @@ class JeroenVermeulen_Solarium_Model_Engine
                     $text = $product[ 'data_index' ];
                     $text = preg_replace( '/\s*\,\s*+/', ' ', $text ); // Replace comma separation by spaces
                     $text = $this->_filterString( $text );
+
+                    /**
+                     * Load the product SKU
+                     */
+                    $sku = Mage::getResourceModel('catalog/product')->getProductsSku( array(intval($product['product_id'])) );
+                    $sku = current($sku);
+                    $sku = $sku['sku'];
+
                     $data = array(
                         'id'         => intval( $product[ 'fulltext_id' ] ),
                         'product_id' => intval( $product[ 'product_id' ] ),
                         'store_id'   => intval( $product[ 'store_id' ] ),
+                        'sku'        => $sku,
                         'text'       => $text
                     );
                     $buffer->createDocument( $data );
@@ -529,19 +538,21 @@ class JeroenVermeulen_Solarium_Model_Engine
             $query              = $this->_client->createSelect();
             $queryHelper        = $query->getHelper();
             $escapedQueryString = $queryHelper->escapeTerm( $queryString );
+
             if ( $this::SEARCH_TYPE_STRING_COMPLETION == $searchType || $escapedQueryString == '' ) {
                 $escapedQueryString = $escapedQueryString . '*';
             } else if ( $this::SEARCH_TYPE_SOUNDS_LIKE == $searchType ) {
                 $escapedQueryString = $escapedQueryString . '~';
             }
 
-            $query->setQueryDefaultField( array( 'text' ) );
+            $query->setQueryDefaultField( 'text' );
             $query->setQuery( $escapedQueryString );
             $query->setRows( $maxResults );
             $query->setFields( array( 'product_id', 'score' ) );
             if (is_numeric( $storeId )) {
                 $query->createFilterQuery( 'store_id' )->setQuery( 'store_id:' . intval( $storeId ) );
             }
+
             $query->addSort( 'score', $query::SORT_DESC );
             // Group by product_id to prevent double results.
             $groupComponent = $query->getGrouping();

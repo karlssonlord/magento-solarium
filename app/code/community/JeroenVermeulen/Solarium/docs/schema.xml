@@ -47,8 +47,11 @@
         <!-- Magento Store Id -->
         <field name="store_id" type="int" indexed="true" stored="true" required="true"/>
 
+        <!-- Magento SKU -->
+        <field name="sku" type="string" indexed="true" stored="true" required="true"/>
+
         <!-- Magento Product Fulltext -->
-        <field name="text" type="text_general" indexed="true" stored="false"/>
+        <field name="text" type="text_general" indexed="true" stored="true"/>
 
         <field name="_version_" type="long" indexed="true" stored="true"/>
     </fields>
