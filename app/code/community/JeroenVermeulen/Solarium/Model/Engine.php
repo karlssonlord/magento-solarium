@@ -421,15 +421,14 @@ class JeroenVermeulen_Solarium_Model_Engine
                     /**
                      * Load the product SKU
                      */
-                    $sku = Mage::getResourceModel('catalog/product')->getProductsSku( array(intval($product['product_id'])) );
-                    $sku = current($sku);
-                    $sku = $sku['sku'];
+                    $magentoProduct = Mage::getModel('catalog/product')->load(intval($product['product_id']));
 
                     $data = array(
                         'id'         => intval( $product[ 'fulltext_id' ] ),
                         'product_id' => intval( $product[ 'product_id' ] ),
                         'store_id'   => intval( $product[ 'store_id' ] ),
-                        'sku'        => $sku,
+                        'sku'        => $magentoProduct->getSku(),
+                        'product_name' => $magentoProduct->getName(),
                         'text'       => $text
                     );
                     $buffer->createDocument( $data );

@@ -50,6 +50,9 @@
         <!-- Magento SKU -->
         <field name="sku" type="string" indexed="true" stored="true" required="true"/>
 
+        <!-- Magento Product Name -->
+        <field name="product_name" type="string" indexed="true" stored="true" required="true"/>
+
         <!-- Magento Product Fulltext -->
         <field name="text" type="text_general" indexed="true" stored="true"/>
 
