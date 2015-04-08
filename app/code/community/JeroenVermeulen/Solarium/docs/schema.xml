@@ -30,9 +30,9 @@
         <fieldType name="long" class="solr.TrieLongField" precisionStep="0" positionIncrementGap="0"/>
         <fieldType name="text_general" class="solr.TextField" positionIncrementGap="100">
             <analyzer>
-                <tokenizer class="solr.StandardTokenizerFactory"/>
-                <filter class="solr.LowerCaseFilterFactory"/>
-                <filter class="solr.ShingleFilterFactory" maxShingleSize="3" outputUnigrams="true"/>
+                <charfilter class="solr.MappingCharFilterFactory" mapping="mapping-ISOLatin1Accent.txt"/>
+                <tokenizer class="solr.WhitespaceTokenizerFactory"/>
+                <filter class="solr.NGramFilterFactory" maxgramsize="25" mingramsize="3"/>
             </analyzer>
         </fieldType>
     </types>
@@ -51,7 +51,7 @@
         <field name="sku" type="string" indexed="true" stored="true" required="true"/>
 
         <!-- Magento Product Name -->
-        <field name="product_name" type="string" indexed="true" stored="true" required="true"/>
+        <field name="product_name" type="text_general" indexed="true" stored="true" required="true"/>
 
         <!-- Magento Product Fulltext -->
         <field name="text" type="text_general" indexed="true" stored="true"/>
